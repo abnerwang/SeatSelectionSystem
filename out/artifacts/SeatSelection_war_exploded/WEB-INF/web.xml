@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <servlet>
+        <servlet-name>UserRegisterServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.controller.UserRegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserRegisterServlet</servlet-name>
+        <url-pattern>/servlet/UserRegisterServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterUIServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.UI.RegisterUIServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterUIServlet</servlet-name>
+        <url-pattern>/servlet/RegisterUIServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.controller.UserLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <url-pattern>/servlet/UserLoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginUIServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.UI.LoginUIServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginUIServlet</servlet-name>
+        <url-pattern>/servlet/LoginUIServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ClassroomSelectionServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.controller.ClassroomSelectionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClassroomSelectionServlet</servlet-name>
+        <url-pattern>/servlet/ClassroomSelectionServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ClassroomSelectionUIServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.UI.ClassroomSelectionUIServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClassroomSelectionUIServlet</servlet-name>
+        <url-pattern>/servlet/ClassroomSelectionUIServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SeatSelectionServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.controller.SeatSelectionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SeatSelectionServlet</servlet-name>
+        <url-pattern>/servlet/SeatSelectionServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SeatSelectionUIServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.UI.SeatSelectionUIServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SeatSelectionUIServlet</servlet-name>
+        <url-pattern>/servlet/SeatSelectionUIServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReleaseSeatServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.controller.ReleaseSeatServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReleaseSeatServlet</servlet-name>
+        <url-pattern>/servlet/ReleaseSeatServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReleaseSeatUIServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.UI.ReleaseSeatUIServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReleaseSeatUIServlet</servlet-name>
+        <url-pattern>/servlet/ReleaseSeatUIServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddClassroomServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.controller.AddClassroomServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddClassroomServlet</servlet-name>
+        <url-pattern>/servlet/AddClassroomServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddClassroomUIServlet</servlet-name>
+        <servlet-class>com.qiyexuxu.web.UI.AddClassroomUIServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddClassroomUIServlet</servlet-name>
+        <url-pattern>/servlet/AddClassroomUIServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
