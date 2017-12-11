@@ -2,8 +2,11 @@ package com.qiyexuxu.service.impl;
 
 import com.qiyexuxu.dao.SeatDao;
 import com.qiyexuxu.dao.impl.SeatDaoImpl;
+import com.qiyexuxu.domain.Seat;
 import com.qiyexuxu.exception.SeatOccupiedException;
 import com.qiyexuxu.exception.SeatSelectedException;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * 向 Web 层提供选座和释放座位功能
@@ -22,10 +25,10 @@ public class SeatServiceImpl implements com.qiyexuxu.service.SeatService {
      * @throws SeatOccupiedException
      */
     @Override
-    public boolean select(String studentID, String classroomID, int seatRow, int seatColumn)
-            throws SeatOccupiedException, SeatSelectedException {
-        boolean isSuccess = seatDao.selectSeat(studentID, classroomID, seatRow, seatColumn);
-        return isSuccess;
+    public Seat select(String studentID, String classroomID, int seatRow, int seatColumn)
+            throws SeatOccupiedException, SeatSelectedException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        Seat seat = seatDao.selectSeat(studentID, classroomID, seatRow, seatColumn);
+        return seat;
     }
 
 

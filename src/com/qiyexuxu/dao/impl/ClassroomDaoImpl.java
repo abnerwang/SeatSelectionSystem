@@ -28,15 +28,20 @@ public class ClassroomDaoImpl implements com.qiyexuxu.dao.ClassroomDao {
     @Override
     public boolean addClassroom(Classroom classroom) throws IllegalAccessException,
             IntrospectionException, InvocationTargetException {
+        boolean isSuccess = true;
+
         // 首先将封装教室信息的 JavaBean 转换成封装教室信息的 Map
         Map<java.lang.String, Object> crInfoMap = bean2Map(classroom);
 
         // 将封装教室信息的 Map 存入到数据库中并返回是否存入成功
-        boolean isSuccess = insert2DBByMap(crInfoMap, InfoMessage.CLASSROOM_TABLE_NAME);
+        isSuccess = insert2DBByMap(crInfoMap, InfoMessage.CLASSROOM_TABLE_NAME);
 
-        // 往教室中添加座位
+        // 新建存放教室的数组
+        ArrayList<Seat> seats = new ArrayList<>();
+
+        // 往教室中批量添加座位
         SeatDao seatDao = new SeatDaoImpl();
-        for (int i = 1; i <= classroom.getCountOfSeats(); i++)
+        for (int i = 1; i <= classroom.getCountOfSeats(); i++) {
             for (int j = 1; j <= classroom.getCountOfSeats(); j++) {
                 Seat seat = new Seat();
                 seat.setClassroomID(classroom.getClassroomID());
@@ -47,12 +52,12 @@ public class ClassroomDaoImpl implements com.qiyexuxu.dao.ClassroomDao {
                 seat.setStudentID(null);
                 seat.setOccupationFlag('0');
 
-                isSuccess = seatDao.addSeat(seat);
-
-                if (isSuccess == false) {
-                    return isSuccess;
-                }
+                seats.add(seat);
             }
+        }
+
+        isSuccess = seatDao.addSeats(seats);
+
         return isSuccess;
     }
 

@@ -4,7 +4,7 @@ import com.qiyexuxu.dao.UserDao;
 import com.qiyexuxu.dao.impl.UserDaoImpl;
 import com.qiyexuxu.domain.User;
 import com.qiyexuxu.exception.UserExistException;
-import com.qiyexuxu.utils.Md5AndBase64AlgorithmUtil;
+import com.qiyexuxu.utils.Md5AlgorithmUtil;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
@@ -32,7 +32,7 @@ public class UserServiceImpl implements com.qiyexuxu.service.UserService {
             throw new UserExistException();
         }
         // 对用户密码进行加密
-        user.setPassword(Md5AndBase64AlgorithmUtil.genEncryptMessage(user.getPassword()));
+        user.setPassword(Md5AlgorithmUtil.genEncryptMessage(user.getPassword()));
 
         // 将注册结果返回
         return dao.addUser(user);
@@ -50,7 +50,7 @@ public class UserServiceImpl implements com.qiyexuxu.service.UserService {
         User user = null;
 
         // 将用户提交的密码进行加密处理，方便和数据库中的密码配对
-        String cryptographicPassword = Md5AndBase64AlgorithmUtil.genEncryptMessage(password);
+        String cryptographicPassword = Md5AlgorithmUtil.genEncryptMessage(password);
         UserDao dao = new UserDaoImpl();
         user = dao.findUser(studentID, cryptographicPassword);
         return user;

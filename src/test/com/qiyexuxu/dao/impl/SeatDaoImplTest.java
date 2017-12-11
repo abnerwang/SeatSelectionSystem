@@ -2,6 +2,7 @@ package test.com.qiyexuxu.dao.impl;
 
 import com.qiyexuxu.dao.SeatDao;
 import com.qiyexuxu.dao.impl.SeatDaoImpl;
+import com.qiyexuxu.domain.Seat;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -38,8 +39,8 @@ public class SeatDaoImplTest {
     public void testSelectSeat() throws Exception {
 //TODO: Test goes here...
         SeatDao seatDao = new SeatDaoImpl();
-        boolean isSuccess = seatDao.selectSeat("E17301177", "101", 1, 2);
-        if (isSuccess) {
+        Seat seat = seatDao.selectSeat("E17301177", "101", 1, 2);
+        if (seat != null) {
             System.out.println("选座成功！");
         } else {
             System.out.println("选座失败！");

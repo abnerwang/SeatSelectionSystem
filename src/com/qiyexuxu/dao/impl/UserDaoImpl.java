@@ -96,6 +96,10 @@ public class UserDaoImpl implements com.qiyexuxu.dao.UserDao {
 
             // 若登录成功，则将数据库中查询到的数据封装成用户信息的 JavaBean
             ArrayList<User> users = autoBean(User.class, resultSet);
+            System.out.println(users);
+            if (users == null || users.size() == 0) {
+                return null;
+            }
             user = users.get(0);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -29,7 +29,7 @@ public class InfoMessage {
 
     // 用户登录成功、失败信息
     public static String LOGIN_SUCCESS = "用户登录成功！";
-    public static String LOGIN_FAIL = "用户名或密码错误！";
+    public static String LOGIN_FAIL = "学号或密码错误！";
 
     // 选座成功、失败消息
     public static String SELECT_SEAT_SUCCESS = "选座成功！";

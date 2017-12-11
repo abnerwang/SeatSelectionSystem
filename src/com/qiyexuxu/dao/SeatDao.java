@@ -6,6 +6,7 @@ import com.qiyexuxu.exception.SeatSelectedException;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 /**
  * 为 service 层提供两个接口
@@ -18,8 +19,11 @@ public interface SeatDao {
     boolean addSeat(Seat seat) throws IllegalAccessException, IntrospectionException,
             InvocationTargetException;
 
-    boolean selectSeat(String studentID, String classroomID, int seatRow, int seatColumn)
-            throws SeatOccupiedException, SeatSelectedException;
+
+    boolean addSeats(ArrayList<Seat> seats);
+
+    Seat selectSeat(String studentID, String classroomID, int seatRow, int seatColumn)
+            throws SeatOccupiedException, SeatSelectedException, IllegalAccessException, InvocationTargetException, InstantiationException;
 
     boolean releaseSeat(String classroomID, int seatRow, int seatColumn);
 }

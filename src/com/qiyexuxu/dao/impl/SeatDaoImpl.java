@@ -4,6 +4,7 @@ import com.qiyexuxu.common.InfoMessage;
 import com.qiyexuxu.domain.Seat;
 import com.qiyexuxu.exception.SeatOccupiedException;
 import com.qiyexuxu.exception.SeatSelectedException;
+import com.qiyexuxu.utils.DaoUtils;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static com.qiyexuxu.utils.DBUtils.close;
@@ -38,6 +40,41 @@ public class SeatDaoImpl implements com.qiyexuxu.dao.SeatDao {
     }
 
     /**
+     * 在新建教室的时候批量添加座位（为添加座位时的性能考虑）
+     *
+     * @param seats 需要添加的座位组成的数组
+     * @return 批量添加是否成功   true: 添加成功过  false： 添加失败
+     */
+    @Override
+    public boolean addSeats(ArrayList<Seat> seats) {
+        boolean isSuccess = true;
+
+        Connection conn = getConnection();
+        PreparedStatement preparedStatement = null;
+
+        for (Seat seat : seats) {
+            String classroomID = seat.getClassroomID();
+            int seatRow = seat.getSeatRow();
+            int seatColumn = seat.getSeatColumn();
+            String sql = "INSERT INTO seat(classroomID, seatRow, seatColumn, studentID, occupationFlag) VALUES " +
+                    "('" + classroomID + "', " + seatRow + ", " + seatColumn + ", " + null + ", '" + "0')";
+            try {
+                preparedStatement = conn.prepareStatement(sql);
+                int effectedRows = preparedStatement.executeUpdate();
+                if (effectedRows < 1) {
+                    isSuccess = false;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        close(conn, preparedStatement);
+
+        return isSuccess;
+    }
+
+    /**
      * 在数据库中处理选座
      *
      * @param studentID   选择该座位学生的学号
@@ -47,9 +84,9 @@ public class SeatDaoImpl implements com.qiyexuxu.dao.SeatDao {
      * @return 选座是否成功   true: 成功  false：失败
      */
     @Override
-    public boolean selectSeat(String studentID, String classroomID, int seatRow, int seatColumn)
-            throws SeatOccupiedException, SeatSelectedException {
-        boolean isSuccess = true;
+    public Seat selectSeat(String studentID, String classroomID, int seatRow, int seatColumn)
+            throws SeatOccupiedException, SeatSelectedException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Seat seat = null;
 
         // 判断该学生是否已经选过座了，若已经选了，则抛出异常
         Connection conn = getConnection();
@@ -69,7 +106,6 @@ public class SeatDaoImpl implements com.qiyexuxu.dao.SeatDao {
 
 
         // 判断座位是否已被占用
-        conn = getConnection();
         String ifOcuSql = "SELECT * FROM " + InfoMessage.SEAT_TABLE_NAME + " WHERE classroomID = '"
                 + classroomID + "' AND seatRow = " + seatRow + " AND seatColumn = " + seatColumn +
                 " AND occupationFlag = '0'";
@@ -81,8 +117,6 @@ public class SeatDaoImpl implements com.qiyexuxu.dao.SeatDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            close(conn, preparedStatement, rs);
         }
 
         // 选择对应教室的对应座位
@@ -90,20 +124,21 @@ public class SeatDaoImpl implements com.qiyexuxu.dao.SeatDao {
         String selectSql = "UPDATE " + InfoMessage.SEAT_TABLE_NAME + " SET occupationFlag = " + "'1', studentID = '" +
                 studentID + "' WHERE classroomID = '" + classroomID + "' AND seatRow = " + seatRow +
                 " AND seatColumn = " + seatColumn;
-        conn = getConnection();    // 关闭数据库连接后需重新建立连接
+        String querySql = "SELECT * FROM " + InfoMessage.SEAT_TABLE_NAME + " WHERE studentID = '" + studentID +
+                "' AND occupationFlag = '1'";
         try {
             preparedStatement = conn.prepareStatement(selectSql);
-            int effectedRows = preparedStatement.executeUpdate();
-            if (effectedRows < 1) {
-                isSuccess = false;
-            }
+            preparedStatement.executeUpdate();
+            preparedStatement = conn.prepareStatement(querySql);
+            rs = preparedStatement.executeQuery();
+            seat = DaoUtils.autoBean(Seat.class, rs).get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(conn, preparedStatement);
+            close(conn, preparedStatement, rs);
         }
 
-        return isSuccess;
+        return seat;
     }
 
     /**
